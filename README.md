@@ -187,6 +187,8 @@ Requiere Ollama ya ejecutándose en 127.0.0.1:11434 y el modelo elegido instalad
 
 La mesa de revisión combina búsqueda por palabras (sin distinguir mayúsculas ni acentos), estado de decisión y coincidencia histórica. Los filtros solo cambian la vista; exportar decisiones y preparar borradores sigue considerando la cola completa, no únicamente los resultados visibles. Los recuentos globales y visibles se muestran por separado.
 
+El smoke también ejercita la mesa editorial local en el navegador: importación JSON, texto no confiable, búsqueda, filtros, decisiones, recuperación en una segunda navegación y borrado de sesión. No se añade la mesa editorial al paquete público.
+
 ## Roadmap
 
 1. Ediciones versionadas y selector de semanas (implementado); ampliar validación compartida.
