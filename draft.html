@@ -10,5 +10,6 @@
 <label for="candidate">Ficha a revisar</label><select id="candidate"></select>
 <div id="card"></div>
 <button id="download" type="button">Exportar borrador JSON</button>
-<button id="clear-draft" type="button">Borrar borrador local</button><p>Autoguardado local cuando está disponible. Exporta una copia para conservarla fuera del navegador. La compilación final se realiza mediante scripts/compile-draft.cjs.</p>
-</section></main><script src="lib/validation.js"></script><script src="lib/draft-editor.js"></script><script src="lib/draft-session.js"></script><script src="lib/draft-editor-ui.js"></script></body></html>
+<button id="preview-button" type="button">Validar y previsualizar</button><section id="preview" hidden><h2>Edición candidata (no publicada)</h2><div id="preview-content"></div></section>
+<button id="clear-draft" type="button">Borrar borrador local</button><p>Autoguardado local cuando está disponible. Exporta una copia para conservarla fuera del navegador. La previsualización utiliza el mismo compilador que scripts/compile-draft.cjs. Publicar requiere una PR separada.</p>
+</section></main><script src="lib/validation.js"></script><script src="lib/editorial-contract.js"></script><script src="lib/compile-draft.js"></script><script src="lib/draft-editor.js"></script><script src="lib/draft-session.js"></script><script src="lib/draft-editor-ui.js"></script></body></html>

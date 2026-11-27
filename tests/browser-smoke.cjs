@@ -31,7 +31,7 @@ async function main(){
  const review=fs.readFileSync(path.join(__dirname,'../review.html'),'utf8').replace('</head>','<script src="editorial-smoke.js"></script></head>');
  const editorialAssets=new Set([...review.matchAll(/<script src="(lib\/[^" ]+)"/g)].map(m=>'/'+m[1]));
  const draft=fs.readFileSync(path.join(__dirname,'../draft.html'),'utf8').replace('</head>','<script src="draft-smoke.js"></script></head>');
- const draftAssets=new Set(['/editor.css','/lib/validation.js','/lib/draft-editor.js','/lib/draft-session.js','/lib/draft-editor-ui.js']);
+ const draftAssets=new Set(['/editor.css','/lib/validation.js','/lib/editorial-contract.js','/lib/compile-draft.js','/lib/draft-editor.js','/lib/draft-session.js','/lib/draft-editor-ui.js']);
  const headers=Object.fromEntries(fs.readFileSync(path.join(dist,'_headers'),'utf8').split('\n').filter(l=>/^  [\w-]+: /.test(l)).map(l=>{const i=l.indexOf(':');return [l.slice(0,i).trim(),l.slice(i+1).trim()];}));
  if(!headers['Content-Security-Policy'])throw Error('Missing CSP');
  server=http.createServer((req,res)=>{
