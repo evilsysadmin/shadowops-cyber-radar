@@ -133,6 +133,14 @@ node scripts/compile-draft.cjs borrador.json > edicion.json
 
 El resultado se puede previsualizar importándolo en el radar. No modifica el histórico ni publica automáticamente. La compilación comprueba estructura, decisiones, fechas y enlaces; no puede verificar la veracidad de una afirmación redactada por el editor. Los borradores sin candidatos o incompletos se rechazan.
 
+## Preparar una publicación controlada
+
+```sh
+node scripts/prepare-release.cjs borrador.json editions-candidate.js
+```
+
+Genera un archivo de histórico candidato a partir del borrador revisado. Solo admite una edición posterior, conserva todas las anteriores y nunca sobrescribe archivos existentes. Revisa el diff, previsualiza la edición, sustituye deliberadamente `data/editions.js` y abre una PR para pasar CI. No existe publicación automática ni se altera el histórico real durante la preparación. Una misma organización puede aparecer en varios incidentes distintos.
+
 ## Roadmap
 
 1. Ediciones versionadas y selector de semanas (implementado); ampliar validación compartida.

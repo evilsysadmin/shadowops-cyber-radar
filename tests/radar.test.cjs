@@ -23,14 +23,11 @@ test('initial edition has valid fields and HTTPS evidence', () => {
   }
   assert.ok(Array.isArray(edition.items));
   assert.ok(edition.items.length > 0 && edition.items.length <= 500);
-  const names = new Set();
   for (const item of edition.items) {
     for (const key of ['name', 'date', 'incident', 'vector', 'impact', 'lesson']) {
       assert.equal(typeof item[key], 'string');
       assert.ok(item[key].trim());
     }
-    assert.ok(!names.has(item.name), 'duplicate entity in seed: ' + item.name);
-    names.add(item.name);
     assert.ok(['breach', 'exploit', 'watch'].includes(item.type));
     assert.ok(Array.isArray(item.tags) && item.tags.every(t => typeof t === 'string'));
     assert.ok(Array.isArray(item.sources) && item.sources.length > 0);
