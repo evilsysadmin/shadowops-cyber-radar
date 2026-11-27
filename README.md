@@ -238,6 +238,10 @@ node scripts/collect-local.cjs 2026-11-21 2026-11-27
 
 Por defecto recoge los siete días UTC inclusivos hasta hoy y guarda la cola validada en `work/revision-FROM--THROUGH.json`. Si alguna fuente falla o la cola es inválida, no crea el fichero final. Nunca sobrescribe una cola existente, incluso si coinciden dos ejecuciones. Importa el archivo en la mesa editorial; sigue siendo una lista de candidatos, no una edición publicada. No se sincroniza ni se envía a IA automáticamente.
 
+## Editor visual de borradores
+
+Abre http://127.0.0.1:8080/draft.html después de `make serve`. Importa un borrador original o asistido por IA, edita una ficha cada vez, consulta sus enlaces y marca la verificación explícitamente. Cambiar cualquier campo de la ficha invalida la verificación. Exporta el JSON para compilarlo con el CLI existente, que sigue siendo la validación final. Los cambios se mantienen en memoria hasta exportar; no se publica, no se guarda en Git y no se incluye en el paquete público.
+
 ## Roadmap
 
 1. Ediciones versionadas y selector de semanas (implementado); ampliar validación compartida.

@@ -8,6 +8,8 @@ on:
       - 'radar.css'
       - '_headers'
       - 'review.html'
+      - 'draft.html'
+      - 'editor.css'
       - 'data/**'
       - 'lib/**'
       - 'scripts/**'
