@@ -3,12 +3,12 @@
 <nav><a href="review.html">Mesa editorial</a> · <a href="index.html">Radar</a></nav>
 <h1>Editor de borradores</h1><p>Importa un borrador de revisión o asistido por IA. Comprueba sus evidencias, redacta y verifica cada ficha. Nada se publica desde esta pantalla.</p>
 <label for="draft-file">Borrador JSON</label><input type="file" id="draft-file" accept=".json,application/json">
-<p id="notice" role="status"></p><p id="progress" role="status"></p>
+<p id="notice" role="status"></p><p id="persistence" role="status"></p><p id="progress" role="status"></p>
 <section id="editor" hidden>
 <label for="pattern">Patrón de la semana</label><textarea id="pattern" maxlength="5000"></textarea>
 <label for="action">Acción recomendada</label><textarea id="action" maxlength="5000"></textarea>
 <label for="candidate">Ficha a revisar</label><select id="candidate"></select>
 <div id="card"></div>
 <button id="download" type="button">Exportar borrador JSON</button>
-<p>Guarda el fichero antes de salir. La compilación final se realiza mediante scripts/compile-draft.cjs.</p>
-</section></main><script src="lib/validation.js"></script><script src="lib/draft-editor.js"></script><script src="lib/draft-editor-ui.js"></script></body></html>
+<button id="clear-draft" type="button">Borrar borrador local</button><p>Autoguardado local cuando está disponible. Exporta una copia para conservarla fuera del navegador. La compilación final se realiza mediante scripts/compile-draft.cjs.</p>
+</section></main><script src="lib/validation.js"></script><script src="lib/draft-editor.js"></script><script src="lib/draft-session.js"></script><script src="lib/draft-editor-ui.js"></script></body></html>
