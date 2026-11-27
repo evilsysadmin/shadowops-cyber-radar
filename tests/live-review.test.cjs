@@ -1,0 +1,20 @@
+'use strict';
+const {test}=require('node:test');
+const assert=require('node:assert/strict');
+const fs=require('node:fs'),os=require('node:os'),path=require('node:path');
+const {spawnSync}=require('node:child_process');
+const {normalizeBatch}=require('../lib/workbench.js');
+test('orchestration executes both RSS parsers and weekly review, fails without partial stdout',t=>{
+ const dir=fs.mkdtempSync(path.join(os.tmpdir(),'radar-live-test-'));
+ t.after(()=>fs.rmSync(dir,{recursive:true,force:true}));
+ const kev=path.join(dir,'kev.json'),cisa=path.join(dir,'cisa.xml'),cloud=path.join(dir,'cloud.xml');
+ fs.writeFileSync(kev,'{"vulnerabilities":[]}');
+ const rss=url=>'<rss version="2.0"><channel><item><title>Fixture</title><link>'+url+'</link><pubDate>Fri, 27 Nov 2026 12:00:00 GMT</pubDate></item></channel></rss>';
+ fs.writeFileSync(cisa,rss('https://www.cisa.gov/test'));fs.writeFileSync(cloud,rss('https://blog.cloudflare.com/test/'));
+ const run=()=>spawnSync(process.execPath,[path.join(__dirname,'../scripts/live-review.cjs'),'2026-11-21','2026-11-27','--offline',kev,cisa,cloud],{encoding:'utf8',timeout:15000});
+ let r=run();assert.equal(r.status,0,r.stderr);
+ const b=normalizeBatch(JSON.parse(r.stdout));
+ assert.ok(b.candidates.some(c=>c.id==='disclosure:https://www.cisa.gov/test'));
+ assert.ok(b.candidates.some(c=>c.id==='disclosure:https://blog.cloudflare.com/test'));
+ fs.writeFileSync(cloud,'<invalid/>');r=run();assert.notEqual(r.status,0);assert.equal(r.stdout,'');
+});
