@@ -71,3 +71,31 @@ test('archive has unique valid date IDs and is newest first', () => {
   assert.match(html, /<script src="data\/editions.js">/);
   new vm.Script(archive);
 });
+
+const {validateEdition} = require('../lib/validation.js');
+test('published editions use the same validator as imports', () => {
+  for (const edition of editions) assert.equal(validateEdition(edition), edition);
+});
+test('validator rejects malformed records, unsafe or deceptive source URLs and excessive lists', () => {
+  const fresh = () => JSON.parse(JSON.stringify(editions[0]));
+  const edits = [
+    e => { e.period = ' '; },
+    e => { e.items[0].type = 'rumor'; },
+    e => { e.items[0].sources = []; },
+    e => { e.items[0].sources[0][1] = 'javascript:alert(1)'; },
+    e => { e.items[0].sources[0][1] = 'https://trusted.example@untrusted.example/'; },
+    e => { e.items[0].sources[0][1] = 'not a URL'; },
+    e => { e.items[0].tags = Array(41).fill('test'); },
+    e => { e.items[0].impact = 'x'.repeat(5001); },
+    e => { e.items = Array(501).fill(e.items[0]); },
+    e => { e.items[0].name = ' '; }
+  ];
+  for (const edit of edits) { const edition = fresh(); edit(edition); assert.throws(() => validateEdition(edition)); }
+});
+test('valid empty edition and multiple incidents for a single organization are allowed', () => {
+  const edition = JSON.parse(JSON.stringify(editions[0]));
+  edition.items.push({...edition.items[0]});
+  assert.doesNotThrow(() => validateEdition(edition));
+  edition.items = [];
+  assert.doesNotThrow(() => validateEdition(edition));
+});
