@@ -4,6 +4,7 @@ on:
     paths:
       - 'index.html'
       - 'data/**'
+      - 'lib/**'
       - 'tests/**'
       - '.github/workflows/ci.yml'
   workflow_dispatch:
