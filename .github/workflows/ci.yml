@@ -24,3 +24,4 @@ jobs:
         with:
           persist-credentials: false
       - run: node --test tests/*.test.cjs
+      - run: python3 -m unittest discover -s tests -p 'test_*.py'
