@@ -14,6 +14,7 @@ from pathlib import Path
 MAX_BYTES = 4 * 1024 * 1024
 FEEDS = {
     "cisa": ("https://www.cisa.gov/cybersecurity-advisories/all.xml", "CISA", "cert", {"www.cisa.gov", "cisa.gov"}),
+    "cert-fr": ("https://cert.cyber.gouv.fr/cti/feed/", "CERT-FR", "cert", {"cert.cyber.gouv.fr", "cert.ssi.gouv.fr", "www.cert.ssi.gouv.fr"}),
     "cloudflare": ("https://blog.cloudflare.com/tag/security/rss/", "Cloudflare", "vendor", {"blog.cloudflare.com"}),
 }
 
