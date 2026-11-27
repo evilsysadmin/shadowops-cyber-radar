@@ -151,6 +151,16 @@ El mismo desplegable incluye patrones técnicos por etiquetas explícitas: ficha
 
 El paquete estático incluye `_headers` para Cloudflare Pages: CSP restrictiva sin unsafe-inline ni unsafe-eval, protección contra framing, nosniff y política de referrer. Los scripts y CSS del radar son externos y se sirven desde el mismo origen. El radar no necesita conexiones de red en runtime. En otros hostings hay que configurar las cabeceras equivalentes (GitHub Pages no aplica automáticamente _headers). No sustituye autenticación ni activa el alojamiento. La mesa editorial local no se empaqueta.
 
+## Smoke del navegador
+
+```sh
+node tests/browser-smoke.cjs
+# Si Chromium está instalado con otro nombre:
+CHROME_BIN=chromium node tests/browser-smoke.cjs
+```
+
+El smoke levanta un servidor local del paquete real con las cabeceras de despliegue y ejecuta Chrome headless instalado en el runner. Comprueba CSS, filtros combinados, búsqueda, navegación del histórico, reinicio, desbordamiento y errores CSP. No instala paquetes npm, no accede a fuentes externas y no incluye el harness en el sitio desplegable. Es una prueba funcional de navegador, no una auditoría visual exhaustiva.
+
 ## Roadmap
 
 1. Ediciones versionadas y selector de semanas (implementado); ampliar validación compartida.
