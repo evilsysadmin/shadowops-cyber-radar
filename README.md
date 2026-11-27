@@ -6,11 +6,15 @@ Radar visual semanal de incidentes de ciberseguridad, con foco en hechos comprob
 
 ## Ejecutar
 
-Abrir `index.html` en el navegador o servir el repositorio:
+Arrancar el servidor local (Node.js 20+; sin instalar paquetes):
 
 ```sh
-python3 -m http.server 8080
+make serve
+# O directamente:
+node scripts/serve-local.cjs 8080
 ```
+
+Radar: http://127.0.0.1:8080/ · Mesa editorial: http://127.0.0.1:8080/review.html. Usa `make serve PORT=9000` si el puerto está ocupado. Solo escucha en loopback y sirve una lista explícita de archivos: no expone Git, scripts, directorios ni borradores. Guarda ficheros privados en `work/` (ignorado por Git); no los añadas con git add -f. No sirve como autenticación o hosting de producción. Abrir index.html directamente sigue siendo posible.
 
 Sin dependencias de frontend, backend, claves API ni telemetría. La edición inicial cubre una selección del 21–27 de noviembre de 2026. No es un feed en tiempo real.
 
@@ -20,7 +24,7 @@ Sin dependencias de frontend, backend, claves API ni telemetría. La edición in
 node --test tests/*.test.cjs
 ```
 
-Node 20+; sin npm install. CI ligera por PR, sin tareas programadas ni deploy automático todavía.
+Node 20+; sin npm install. CI por PR y build de release en main; recogida semanal programada, sin deploy automático.
 
 ## Criterio editorial
 
