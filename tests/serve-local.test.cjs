@@ -9,7 +9,7 @@ async function start(t){
 }
 test('local server exposes both UIs and their scripts with no-store and security headers',async t=>{
  const base=await start(t);
- for(const route of ['/','/review.html','/lib/workbench.js','/data/editions.js','/radar.css']){
+ for(const route of ['/','/review.html','/lib/workbench.js','/data/editions.js','/radar.css','/draft.html','/editor.css','/lib/draft-editor.js','/lib/draft-editor-ui.js']){
   const r=await fetch(base+route);assert.equal(r.status,200,route);assert.equal(r.headers.get('cache-control'),'no-store');assert.equal(r.headers.get('x-content-type-options'),'nosniff');await r.text();
  }
  const r=await fetch(base+'/');assert.doesNotMatch(r.headers.get('content-security-policy'),/unsafe-inline/);

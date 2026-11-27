@@ -30,10 +30,15 @@ async function main(){
  const assets=new Map([['/','index.html'],['/radar.css','radar.css'],...Array.from(html.matchAll(/<script src="([^"]+)"/g),m=>['/'+m[1],m[1]])]);
  const review=fs.readFileSync(path.join(__dirname,'../review.html'),'utf8').replace('</head>','<script src="editorial-smoke.js"></script></head>');
  const editorialAssets=new Set([...review.matchAll(/<script src="(lib\/[^" ]+)"/g)].map(m=>'/'+m[1]));
+ const draft=fs.readFileSync(path.join(__dirname,'../draft.html'),'utf8').replace('</head>','<script src="draft-smoke.js"></script></head>');
+ const draftAssets=new Set(['/editor.css','/lib/validation.js','/lib/draft-editor.js','/lib/draft-editor-ui.js']);
  const headers=Object.fromEntries(fs.readFileSync(path.join(dist,'_headers'),'utf8').split('\n').filter(l=>/^  [\w-]+: /.test(l)).map(l=>{const i=l.indexOf(':');return [l.slice(0,i).trim(),l.slice(i+1).trim()];}));
  if(!headers['Content-Security-Policy'])throw Error('Missing CSP');
  server=http.createServer((req,res)=>{
    const url=req.url;
+   if(url==='/draft.html'){res.writeHead(200,{...headers,'Content-Type':'text/html; charset=utf-8'});return res.end(draft);}
+   if(url==='/draft-smoke.js'){res.writeHead(200,{...headers,'Content-Type':'application/javascript; charset=utf-8'});return res.end(fs.readFileSync(path.join(__dirname,'draft-browser-fixture.js')));}
+   if(draftAssets.has(url)){res.writeHead(200,{...headers,'Content-Type':url.endsWith('.css')?'text/css; charset=utf-8':'application/javascript; charset=utf-8'});return res.end(fs.readFileSync(path.join(__dirname,'..',url.slice(1))));}
    if(url==='/review.html'||url==='/review.html?restore'){res.writeHead(200,{'Content-Type':'text/html; charset=utf-8'});return res.end(review);}
    if(url==='/editorial-smoke.js'){res.writeHead(200,{'Content-Type':'application/javascript; charset=utf-8'});return res.end(fs.readFileSync(path.join(__dirname,'editorial-browser-fixture.js')));}
    if(editorialAssets.has(url)){res.writeHead(200,{'Content-Type':'application/javascript; charset=utf-8'});return res.end(fs.readFileSync(path.join(__dirname,'..',url.slice(1))));}
@@ -50,5 +55,7 @@ async function main(){
  await browser('http://127.0.0.1:'+server.address().port+'/review.html','editorial import and decisions');
  await browser('http://127.0.0.1:'+server.address().port+'/review.html?restore','editorial session recovery');
  console.log('Editorial browser smoke passed, including reload recovery');
+ await browser('http://127.0.0.1:'+server.address().port+'/draft.html','draft editor verification and export');
+ console.log('Draft editor browser smoke passed');
 }
 main().catch(e=>{console.error(e.message);process.exitCode=1;}).finally(()=>{if(server)server.close();fs.rmSync(tmp,{recursive:true,force:true});});
