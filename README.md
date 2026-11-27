@@ -105,6 +105,16 @@ python3 -m http.server 8080 --directory dist
 
 La salida es un sitio estático sin backend ni instalación de dependencias. El directorio de destino no debe existir; no se sobrescribe ni se borra un directorio previo. Solo se incluyen los cuatro archivos de runtime del radar y .nojekyll. No se empaquetan la mesa editorial, scripts, fuentes de candidatos ni tests. Publicar únicamente dist en el alojamiento estático elegido, no la raíz del repositorio. La mesa editorial sigue siendo una herramienta local. Esto no activa ningún hosting ni configura autenticación. El repositorio y sus archivos actuales son públicos; no almacenar información privada en él.
 
+## RSS en la cola semanal
+
+```sh
+python3 scripts/discover-rss.py 2026-11-21 2026-11-27 --feed cisa > rss-cisa.json
+python3 scripts/discover-rss.py 2026-11-21 2026-11-27 --feed cloudflare > rss-cloudflare.json
+node scripts/weekly-review.cjs 2026-11-21 2026-11-27 --rss rss-cisa.json --rss rss-cloudflare.json > revision-semanal.json
+```
+
+Cada argumento RSS es opcional, acepta únicamente candidatos watch no verificados y conserva URL y fecha. Un comunicado curado prevalece sobre un descubrimiento de la misma URL canónica dentro de la ventana; los conflictos entre descubrimientos se rechazan. No se modifica la edición publicada. Sin RSS explícito se conserva el flujo anterior.
+
 ## Roadmap
 
 1. Ediciones versionadas y selector de semanas (implementado); ampliar validación compartida.
