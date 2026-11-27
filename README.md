@@ -145,6 +145,8 @@ Genera un archivo de histórico candidato a partir del borrador revisado. Solo a
 
 El desplegable de histórico muestra hasta ocho ediciones publicadas, con barras y cifras por categoría y acceso a cada edición. No incorpora importaciones locales, no rellena semanas ausentes ni interpreta el número de fichas como frecuencia global de ataques. Con una sola edición informa de que todavía no existe tendencia comparable.
 
+El mismo desplegable incluye patrones técnicos por etiquetas explícitas: fichas, número de ediciones con presencia y recuento en la última edición. Las categorías se solapan y un seguimiento repetido cuenta como ficha, no como ataque independiente. No se infieren causas raíz ni se fabrican tendencias con una sola edición.
+
 ## Roadmap
 
 1. Ediciones versionadas y selector de semanas (implementado); ampliar validación compartida.
