@@ -63,6 +63,10 @@ node scripts/review-disclosures.cjs 2026-11-21 2026-11-27 data/disclosures.json 
 
 El registro JSON contiene comunicados seleccionados manualmente, con fecha de publicación, fecha de incidente (o null), tipo propuesto, organización, resumen y URL. No descarga ni certifica automáticamente que una URL pertenezca a la organización: el editor debe comprobarlo. La clasificación es provisional y todos los candidatos quedan pendientes. La comparación con el histórico usa URL canónica, conserva parámetros significativos y no equipara enlaces distintos al mismo incidente. Los dos ejemplos iniciales ya están cubiertos por la edición publicada.
 
+## Áreas técnicas
+
+El selector combina área, tipo y búsqueda. Las áreas se derivan únicamente de etiquetas explícitas normalizadas; no del texto de recomendaciones. Cloud/Kubernetes es una agrupación temática, no una afirmación de que todos los incidentes afecten Kubernetes. Los recuentos son de la edición completa y pueden solaparse. No representan frecuencia mundial ni atribución MITRE.
+
 ## Roadmap
 
 1. Ediciones versionadas y selector de semanas (implementado); ampliar validación compartida.
