@@ -3,6 +3,8 @@ on:
   pull_request:
     paths:
       - 'index.html'
+      - 'radar.css'
+      - '_headers'
       - 'review.html'
       - 'data/**'
       - 'lib/**'
@@ -26,3 +28,4 @@ jobs:
       - run: node --test tests/*.test.cjs
       - run: python3 -m unittest discover -s tests -p 'test_*.py'
       - run: node scripts/build-static.cjs dist
+      - run: node tests/browser-smoke.cjs
