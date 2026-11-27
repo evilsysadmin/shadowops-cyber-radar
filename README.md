@@ -115,6 +115,14 @@ node scripts/weekly-review.cjs 2026-11-21 2026-11-27 --rss rss-cisa.json --rss r
 
 Cada argumento RSS es opcional, acepta únicamente candidatos watch no verificados y conserva URL y fecha. Un comunicado curado prevalece sobre un descubrimiento de la misma URL canónica dentro de la ventana; los conflictos entre descubrimientos se rechazan. No se modifica la edición publicada. Sin RSS explícito se conserva el flujo anterior.
 
+## Ingesta completa y comprobación de fuentes
+
+```sh
+node scripts/live-review.cjs 2026-11-21 2026-11-27 > revision-semanal.json
+```
+
+Ejecuta ambos descubrimientos RSS, descarga KEV y genera la cola conjunta. Los fallos de fuente impiden emitir una cola parcial; los temporales se eliminan. Para reproducir offline, añade `--offline kev.json cisa.xml cloudflare.xml`. El workflow manual **Live source smoke** comprueba la conectividad y la compatibilidad de las fuentes reales para los últimos siete días UTC. No publica, no sube candidatos como artefactos ni se ejecuta automáticamente por PR. Una ejecución correcta demuestra disponibilidad y parsing, no cobertura completa. CI ordinaria sigue siendo offline.
+
 ## Roadmap
 
 1. Ediciones versionadas y selector de semanas (implementado); ampliar validación compartida.
