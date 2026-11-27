@@ -2,7 +2,7 @@
 const fs=require('node:fs');
 const path=require('node:path');
 const root=path.resolve(__dirname,'..');
-const files=Object.freeze(['index.html','data/editions.js','lib/validation.js','lib/domains.js']);
+const files=Object.freeze(['index.html','data/editions.js','lib/validation.js','lib/domains.js','lib/trends.js']);
 function build(destination){
  const output=path.resolve(destination);
  // Never remove or overwrite an existing directory.

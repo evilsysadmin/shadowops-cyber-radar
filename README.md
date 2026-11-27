@@ -103,7 +103,7 @@ node scripts/build-static.cjs dist
 python3 -m http.server 8080 --directory dist
 ```
 
-La salida es un sitio estático sin backend ni instalación de dependencias. El directorio de destino no debe existir; no se sobrescribe ni se borra un directorio previo. Solo se incluyen los cuatro archivos de runtime del radar y .nojekyll. No se empaquetan la mesa editorial, scripts, fuentes de candidatos ni tests. Publicar únicamente dist en el alojamiento estático elegido, no la raíz del repositorio. La mesa editorial sigue siendo una herramienta local. Esto no activa ningún hosting ni configura autenticación. El repositorio y sus archivos actuales son públicos; no almacenar información privada en él.
+La salida es un sitio estático sin backend ni instalación de dependencias. El directorio de destino no debe existir; no se sobrescribe ni se borra un directorio previo. Solo se incluyen los archivos de runtime del radar enumerados explícitamente y .nojekyll. No se empaquetan la mesa editorial, scripts, fuentes de candidatos ni tests. Publicar únicamente dist en el alojamiento estático elegido, no la raíz del repositorio. La mesa editorial sigue siendo una herramienta local. Esto no activa ningún hosting ni configura autenticación. El repositorio y sus archivos actuales son públicos; no almacenar información privada en él.
 
 ## RSS en la cola semanal
 
@@ -140,6 +140,10 @@ node scripts/prepare-release.cjs borrador.json editions-candidate.js
 ```
 
 Genera un archivo de histórico candidato a partir del borrador revisado. Solo admite una edición posterior, conserva todas las anteriores y nunca sobrescribe archivos existentes. Revisa el diff, previsualiza la edición, sustituye deliberadamente `data/editions.js` y abre una PR para pasar CI. No existe publicación automática ni se altera el histórico real durante la preparación. Una misma organización puede aparecer en varios incidentes distintos.
+
+## Histórico visual
+
+El desplegable de histórico muestra hasta ocho ediciones publicadas, con barras y cifras por categoría y acceso a cada edición. No incorpora importaciones locales, no rellena semanas ausentes ni interpreta el número de fichas como frecuencia global de ataques. Con una sola edición informa de que todavía no existe tendencia comparable.
 
 ## Roadmap
 

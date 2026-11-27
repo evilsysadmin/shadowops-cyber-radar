@@ -10,7 +10,7 @@ function temp(t){const dir=fs.mkdtempSync(path.join(os.tmpdir(),'radar-build-'))
 function list(dir,prefix=''){return fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?list(path.join(dir,e.name),prefix+e.name+'/'):[prefix+e.name]);}
 test('static build includes only dashboard runtime and published editions',t=>{
  const dest=path.join(temp(t),'dist');build(dest);
- assert.deepEqual(list(dest).sort(),['.nojekyll','data/editions.js','index.html','lib/domains.js','lib/validation.js']);
+ assert.deepEqual(list(dest).sort(),['.nojekyll','data/editions.js','index.html','lib/domains.js','lib/trends.js','lib/validation.js']);
  const html=fs.readFileSync(path.join(dest,'index.html'),'utf8');
  for(const m of html.matchAll(/<script[^>]*src="([^"]+)"/g))assert.ok(fs.existsSync(path.join(dest,m[1])),m[1]);
  const repo=path.join(__dirname,'..');
