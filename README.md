@@ -123,6 +123,16 @@ node scripts/live-review.cjs 2026-11-21 2026-11-27 > revision-semanal.json
 
 Ejecuta ambos descubrimientos RSS, descarga KEV y genera la cola conjunta. Los fallos de fuente impiden emitir una cola parcial; los temporales se eliminan. Para reproducir offline, añade `--offline kev.json cisa.xml cloudflare.xml`. El workflow manual **Live source smoke** comprueba la conectividad y la compatibilidad de las fuentes reales para los últimos siete días UTC. No publica, no sube candidatos como artefactos ni se ejecuta automáticamente por PR. Una ejecución correcta demuestra disponibilidad y parsing, no cobertura completa. CI ordinaria sigue siendo offline.
 
+## Compilar una edición revisada
+
+Completa el JSON del borrador: `editorial.pattern`, `editorial.action` y todos los campos de cada `review`. Usa "Desconocido" o "En investigación" cuando corresponda; marca `verified: true` solo después de comprobar las fuentes. Conserva `publicationReady: false` (el fichero sigue siendo un borrador). Los casos KEV requieren etiqueta CVE y no pueden clasificarse como brecha por sí solos.
+
+```sh
+node scripts/compile-draft.cjs borrador.json > edicion.json
+```
+
+El resultado se puede previsualizar importándolo en el radar. No modifica el histórico ni publica automáticamente. La compilación comprueba estructura, decisiones, fechas y enlaces; no puede verificar la veracidad de una afirmación redactada por el editor. Los borradores sin candidatos o incompletos se rechazan.
+
 ## Roadmap
 
 1. Ediciones versionadas y selector de semanas (implementado); ampliar validación compartida.
