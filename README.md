@@ -71,6 +71,16 @@ El selector combina área, tipo y búsqueda. Las áreas se derivan únicamente d
 
 Abre `review.html` en el navegador e importa la salida de `review-kev.cjs` o `review-disclosures.cjs`. Consulta fuentes, fechas, referencias y estado provisional; filtra por decisión y exporta el informe JSON. Una cola a la vez, decisiones en memoria hasta exportar. No se modifica el archivo editorial ni se publica nada. Los enlaces importados son texto no confiable y solo se aceptan HTTPS sin credenciales; la autenticidad sigue requiriendo revisión humana.
 
+## Cola semanal unificada
+
+```sh
+node scripts/weekly-review.cjs 2026-11-21 2026-11-27 > revision-semanal.json
+# Offline, con catálogo KEV guardado:
+node scripts/weekly-review.cjs 2026-11-21 2026-11-27 kev.json > revision-semanal.json
+```
+
+Importa el resultado en `review.html`. Ambas fuentes conservan identidad, fechas y evidencias; se ordenan por fecha de fuente y se exige un intervalo común. El proceso falla sin emitir JSON parcial si una fuente no está disponible o los datos son inválidos. Los comunicados siguen siendo de selección manual. Las coincidencias entre fuentes se revisan por el editor, no se fusionan automáticamente. CI prueba todo el flujo con catálogo local, sin red.
+
 ## Roadmap
 
 1. Ediciones versionadas y selector de semanas (implementado); ampliar validación compartida.
