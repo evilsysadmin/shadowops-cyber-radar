@@ -81,6 +81,10 @@ node scripts/weekly-review.cjs 2026-11-21 2026-11-27 kev.json > revision-semanal
 
 Importa el resultado en `review.html`. Ambas fuentes conservan identidad, fechas y evidencias; se ordenan por fecha de fuente y se exige un intervalo común. El proceso falla sin emitir JSON parcial si una fuente no está disponible o los datos son inválidos. Los comunicados siguen siendo de selección manual. Las coincidencias entre fuentes se revisan por el editor, no se fusionan automáticamente. CI prueba todo el flujo con catálogo local, sin red.
 
+## Borrador editorial
+
+En la mesa de revisión, marca los candidatos que merecen investigación y pulsa **Preparar borrador**. El JSON exportado conserva las evidencias y crea campos de redacción vacíos para cada candidato seleccionado. Las decisiones pendientes, descartadas o ya cubiertas solo se contabilizan; no se incluyen como fichas. El borrador tiene un esquema distinto del radar y no puede importarse como edición publicada. No presupone confirmación, impacto ni causa raíz, y no ejecuta ninguna IA. El editor debe verificar fuentes y completar los campos antes de preparar una edición.
+
 ## Roadmap
 
 1. Ediciones versionadas y selector de semanas (implementado); ampliar validación compartida.
