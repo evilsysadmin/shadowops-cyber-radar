@@ -244,6 +244,10 @@ Abre http://127.0.0.1:8080/draft.html después de `make serve`. Importa un borra
 
 El smoke de Chrome cubre también el editor visual: importación, representación segura de evidencias, rechazo de una ficha incompleta, verificación explícita, invalidación tras edición, exportación JSON y conservación de la ficha ante una importación inválida. Se ejecuta bajo CSP restrictiva; no publica nada.
 
+## Conservación de evidencia técnica
+
+La mesa de revisión conserva la acción requerida por CISA, su fecha límite aplicable a organismos federales estadounidenses y la indicación de uso en ransomware de KEV. Estos metadatos pasan también al borrador y al paquete de asistencia IA; no se confunde `Unknown` con ausencia de ransomware ni la fecha límite con una obligación universal. En comunicados se conserva el tipo de fuente (afectado, fabricante o CERT). Las colas antiguas sin metadatos KEV siguen siendo importables; no se rellenan datos inexistentes. La evidencia importada continúa siendo no confiable hasta su revisión.
+
 ## Roadmap
 
 1. Ediciones versionadas y selector de semanas (implementado); ampliar validación compartida.

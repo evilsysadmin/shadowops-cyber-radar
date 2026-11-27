@@ -31,3 +31,23 @@ test('decision reports keep provenance, pending defaults and never create publis
  assert.ok(!Object.hasOwn(report,'items'));
 });
 test('review UI script parses',()=>new vm.Script(readFileSync(join(__dirname,'../lib/workbench-ui.js'),'utf8')));
+
+test('source details survive normalization, decisions, draft and AI packet without inventing missing metadata',()=>{
+ const {draftReport,visibleCandidates}=require('../lib/workbench.js');
+ const {makePacket}=require('../lib/editorial-assistance.cjs');
+ const batch=normalizeBatch(kev()),c=batch.candidates[0];
+ assert.deepEqual(c.details,{requiredAction:'Patch',dueDate:'2026-12-10',ransomware:'Unknown'});
+ const choices=new Map([[c.id,'investigate']]);
+ assert.deepEqual(decisionReport(batch,choices).decisions[0].details,c.details);
+ const draft=draftReport(batch,choices);assert.deepEqual(draft.candidates[0].evidence.details,c.details);
+ assert.deepEqual(makePacket(draft).candidates[0].details,c.details);
+ assert.equal(visibleCandidates(batch,choices,{query:'Patch'}).length,1);
+ const legacy=kev();delete legacy.candidates[0].requiredAction;delete legacy.candidates[0].dueDate;delete legacy.candidates[0].ransomware;
+ assert.deepEqual(normalizeBatch(legacy).candidates[0].details,{});
+ assert.deepEqual(normalizeBatch(disclosures()).candidates[0].details,{sourceKind:'cert'});
+});
+test('rejects malformed optional KEV source metadata',()=>{
+ for(const [field,value] of [['dueDate','2026-02-30'],['requiredAction',{}],['ransomware','No']]){
+  const b=kev();b.candidates[0][field]=value;assert.throws(()=>normalizeBatch(b),/Metadato KEV/);
+ }
+});
