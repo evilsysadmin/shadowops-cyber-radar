@@ -121,7 +121,7 @@ Cada argumento RSS es opcional, acepta únicamente candidatos watch no verificad
 node scripts/live-review.cjs 2026-11-21 2026-11-27 > revision-semanal.json
 ```
 
-Ejecuta ambos descubrimientos RSS, descarga KEV y genera la cola conjunta. Los fallos de fuente impiden emitir una cola parcial; los temporales se eliminan. Para reproducir offline, añade `--offline kev.json cisa.xml cloudflare.xml`. El workflow manual **Live source smoke** comprueba la conectividad y la compatibilidad de las fuentes reales para los últimos siete días UTC. No publica ni sube candidatos como artefactos. Se ejecuta en PR únicamente cuando cambian los adaptadores o el workflow de fuentes; es un diagnóstico separado de Radar CI, que sigue offline. La ingesta conjunta completa solo se comprueba en ejecución manual. Una ejecución correcta demuestra disponibilidad y parsing, no cobertura completa. CI ordinaria sigue siendo offline.
+Ejecuta los tres descubrimientos RSS, descarga KEV y genera la cola conjunta. Los fallos de fuente impiden emitir una cola parcial; los temporales se eliminan. Para reproducir offline, añade `--offline kev.json cisa.xml cloudflare.xml`. El workflow manual **Live source smoke** comprueba la conectividad y la compatibilidad de las fuentes reales para los últimos siete días UTC. No publica ni sube candidatos como artefactos. Se ejecuta en PR únicamente cuando cambian los adaptadores o el workflow de fuentes; es un diagnóstico separado de Radar CI, que sigue offline. La ingesta conjunta completa solo se comprueba en ejecución manual. Una ejecución correcta demuestra disponibilidad y parsing, no cobertura completa. CI ordinaria sigue siendo offline.
 
 ## Compilar una edición revisada
 
@@ -205,7 +205,11 @@ python3 scripts/discover-rss.py 2026-11-21 2026-11-27 --feed cert-fr > rss-cert-
 node scripts/weekly-review.cjs 2026-11-21 2026-11-27 --rss rss-cert-fr.json > revision.json
 ```
 
-El [catálogo oficial RSS del CERT-FR](https://cert.cyber.gouv.fr/flux-rss/) publica un flujo específico de amenazas e incidentes (CTI). Se utiliza el dominio actual cert.cyber.gouv.fr, admitiendo enlaces del dominio anterior del organismo. Todas las entradas siguen siendo watch pendientes. El diagnóstico independiente incluye esta cuarta fuente; la ingesta completa existente mantiene sus tres fuentes por defecto hasta validar la integración de la nueva. El flujo explícito --rss permite incorporarla sin alterar el histórico.
+El [catálogo oficial RSS del CERT-FR](https://cert.cyber.gouv.fr/flux-rss/) publica un flujo específico de amenazas e incidentes (CTI). Se utiliza el dominio actual cert.cyber.gouv.fr, admitiendo enlaces del dominio anterior del organismo. Todas las entradas siguen siendo watch pendientes. El diagnóstico independiente incluye esta cuarta fuente; la ingesta completa incluye las cuatro fuentes por defecto. El flujo explícito --rss permite incorporarla sin alterar el histórico.
+
+## Recogida semanal en GitHub Actions
+
+El workflow **Weekly candidate collection** se ejecuta los viernes a las 11:30 UTC, manualmente o en PRs que cambien la orquestación. Recoge los últimos siete días UTC de KEV y tres RSS, valida la cola y sube `radar-unpublished-review-queue` como artefacto de Actions con siete días de retención. Descarga el ZIP, extrae `radar-review.json` e impórtalo en `review.html`. No modifica main, no publica ediciones ni invoca IA. Los candidatos contienen datos de fuentes públicas; no introducir datos privados en el registro del repositorio público. Si falla una fuente, no se sube un resultado parcial. La programación consume una ejecución semanal y no debe ser un check obligatorio. Para reproducción offline completa añade `--offline kev.json cisa.xml cloudflare.xml cert-fr.xml`; la variante histórica de tres ficheros sigue funcionando y avisa de que omite CERT-FR.
 
 ## Roadmap
 

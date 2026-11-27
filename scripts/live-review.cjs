@@ -13,13 +13,15 @@ function run(command,args,source){
 }
 function main(){
  const [from,through,...args]=process.argv.slice(2);
- if(!from||!through||!(args.length===0||(args.length===4&&args[0]==='--offline')))throw Error('Usage: node scripts/live-review.cjs FROM THROUGH [--offline kev.json cisa.xml cloudflare.xml]');
+ if(!from||!through||!(args.length===0||((args.length===4||args.length===5)&&args[0]==='--offline')))throw Error('Usage: node scripts/live-review.cjs FROM THROUGH [--offline kev.json cisa.xml cloudflare.xml [cert-fr.xml]]');
  isoDate(from);isoDate(through);if(from>through)throw Error('Inverted interval');
  const offline=args.length>0;
+ const feeds=offline&&args.length===4?['cisa','cloudflare']:['cisa','cloudflare','cert-fr'];
+ if(offline&&args.length===4)console.error('Legacy offline fixture: CERT-FR omitted');
  const temp=fs.mkdtempSync(path.join(os.tmpdir(),'radar-live-'));
  try{
    const inputs=[];
-   for(const [index,feed] of ['cisa','cloudflare'].entries()){
+   for(const [index,feed] of feeds.entries()){
      const target=path.join(temp,feed+'.json');
      const flags=offline?['--local',path.resolve(args[index+2])]:[];
      const result=run('python3',[path.join(root,'scripts/discover-rss.py'),from,through,'--feed',feed,...flags],feed);
