@@ -34,9 +34,13 @@ Node 20+; sin npm install. CI ligera por PR, sin tareas programadas ni deploy au
 
 La app permite importar y exportar una edición JSON localmente. El objeto contiene period, pattern, action e items; cada ficha contiene name, type, date, incident, vector, impact, lesson, tags y sources (pares de etiqueta y URL HTTPS).
 
+## Archivo semanal
+
+Las ediciones publicadas residen en `data/editions.js`, como una lista JSON asignada a `RADAR_EDITIONS`. Cada edición incluye `id` (fecha de corte ISO YYYY-MM-DD). Añadir nuevas ediciones al principio, mantener las anteriores y ejecutar los tests. El selector permite consultar el histórico; importar JSON no modifica el archivo publicado. Se conserva el funcionamiento desde file:// sin servidor.
+
 ## Roadmap
 
-1. Ediciones JSON versionadas, selector de semanas y validación compartida.
+1. Ediciones versionadas y selector de semanas (implementado); ampliar validación compartida.
 2. Ingesta de CISA KEV y otras fuentes autorizadas con deduplicación y procedencia.
 3. Cola de revisión editorial; nunca publicar rumores como hechos.
 4. Relevancia cloud, IAM, CI/CD, Kubernetes y clasificación MITRE cuando haya evidencia.

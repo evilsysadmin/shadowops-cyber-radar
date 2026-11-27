@@ -5,7 +5,8 @@ const path = require('node:path');
 const vm = require('node:vm');
 
 const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
-const seedMatch = html.match(/<script id="seed" type="application\/json">([\s\S]*?)<\/script>/);
+const archive = fs.readFileSync(path.join(__dirname, "..", "data", "editions.js"), "utf8");
+const editions = JSON.parse(archive.match(/^const RADAR_EDITIONS = ([\s\S]*);\s*$/)[1]);
 const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)];
 
 test('embedded application JavaScript parses', () => {
@@ -14,8 +15,8 @@ test('embedded application JavaScript parses', () => {
 });
 
 test('initial edition has valid fields and HTTPS evidence', () => {
-  assert.ok(seedMatch);
-  const edition = JSON.parse(seedMatch[1]);
+  assert.ok(editions.length);
+  for (const edition of editions) {
   for (const key of ['period', 'pattern', 'action']) {
     assert.equal(typeof edition[key], 'string');
     assert.ok(edition[key].trim());
@@ -41,10 +42,11 @@ test('initial edition has valid fields and HTTPS evidence', () => {
       assert.ok(!url.username && !url.password);
     }
   }
+  }
 });
 
 test('historical Renfe incident is not counted as a new breach', () => {
-  const edition = JSON.parse(seedMatch[1]);
+  const edition = editions.find(e => e.id === '2026-11-27');
   const renfe = edition.items.find(item => item.name === 'Renfe');
   assert.equal(renfe.type, 'watch');
   assert.match(renfe.incident, /24 sep/);
@@ -54,4 +56,18 @@ test('basic accessible search and import controls exist', () => {
   assert.match(html, /id="search"[^>]+aria-label=/);
   assert.match(html, /id="notice" role="status"/);
   assert.match(html, /id="file" type="file"/);
+});
+
+test('archive has unique valid date IDs and is newest first', () => {
+  assert.ok(editions.length);
+  const ids = editions.map(e => e.id);
+  assert.equal(new Set(ids).size, ids.length);
+  assert.deepEqual(ids, [...ids].sort().reverse());
+  for (const id of ids) {
+    assert.match(id, /^\d{4}-\d{2}-\d{2}$/);
+    assert.equal(new Date(id).toISOString().slice(0,10), id);
+  }
+  assert.match(html, /<select id="week">/);
+  assert.match(html, /<script src="data\/editions.js">/);
+  new vm.Script(archive);
 });
