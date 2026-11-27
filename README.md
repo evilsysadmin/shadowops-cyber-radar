@@ -213,6 +213,17 @@ El workflow **Weekly candidate collection** se ejecuta los viernes a las 11:30 U
 
 Los tres pasos del smoke anuncian su etapa y tienen un límite individual de 45 segundos. En Linux, un timeout termina el grupo de procesos de Chrome; no se reintentan ni se ignoran aserciones fallidas. Las opciones de arranque reducen actividad de fondo del navegador. El timeout de la PR #28 fue transitorio; este cambio mejora diagnóstico y margen, no demuestra que todos los timeouts futuros estén resueltos.
 
+## Handoff de despliegue a ShadowOps Infra
+
+Radar CI produce un artefacto `radar-static-SHA` en main cuando cambian archivos relevantes para despliegue (o manualmente en main), después de pasar tests y navegador. Incluye release.json con SHA exacto y hash SHA-256 de cada archivo. La mesa editorial no se incluye.
+
+```sh
+node scripts/release-candidate.cjs build release "$(git rev-parse HEAD)"
+node scripts/release-candidate.cjs verify release "$(git rev-parse HEAD)"
+```
+
+El manifiesto permite detectar cambios accidentales; no es una firma ni acredita por sí solo el origen. El futuro propietario de despliegue debe comprobar el run de CI, su repositorio, SHA y evento de origen mediante GitHub, no confiar en el JSON por sí solo. No activar un Pages público directamente desde este repositorio. Conforme a los patrones de ShadowOps Infra, la infraestructura debe ser dueña de Pages y DNS, validar acceso a dominio canónico, origen pages.dev y previews, y verificar ShadowOps ID antes de exponer el contenido. Main todavía no está protegido; la protección de rama y el contrato de identidad/hosting son requisitos pendientes de admisión. Esta PR prepara el paquete, no crea un sitio ni cambia políticas de acceso.
+
 ## Roadmap
 
 1. Ediciones versionadas y selector de semanas (implementado); ampliar validación compartida.
