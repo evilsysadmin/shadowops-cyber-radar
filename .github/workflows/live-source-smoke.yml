@@ -1,10 +1,18 @@
 name: Live source smoke
 on:
   workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/live-source-smoke.yml'
+      - 'scripts/discover-rss.py'
+      - 'scripts/ingest-kev.cjs'
+      - 'scripts/source-health.cjs'
+      - 'lib/source-health.cjs'
+      - 'lib/kev.cjs'
 permissions:
   contents: read
 concurrency:
-  group: radar-live-source-smoke
+  group: radar-live-source-smoke-${{ github.ref }}
   cancel-in-progress: false
 jobs:
   smoke:
@@ -14,7 +22,15 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           persist-credentials: false
+      - name: Independent source diagnostics
+        shell: bash
+        run: |
+          set -euo pipefail
+          from="$(date -u -d '6 days ago' +%F)"
+          through="$(date -u +%F)"
+          node scripts/source-health.cjs "$from" "$through" | tee -a "$GITHUB_STEP_SUMMARY"
       - name: Fetch official sources and validate review queue
+        if: github.event_name == 'workflow_dispatch'
         shell: bash
         run: |
           set -euo pipefail

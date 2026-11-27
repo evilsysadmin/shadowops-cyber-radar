@@ -121,7 +121,7 @@ Cada argumento RSS es opcional, acepta únicamente candidatos watch no verificad
 node scripts/live-review.cjs 2026-11-21 2026-11-27 > revision-semanal.json
 ```
 
-Ejecuta ambos descubrimientos RSS, descarga KEV y genera la cola conjunta. Los fallos de fuente impiden emitir una cola parcial; los temporales se eliminan. Para reproducir offline, añade `--offline kev.json cisa.xml cloudflare.xml`. El workflow manual **Live source smoke** comprueba la conectividad y la compatibilidad de las fuentes reales para los últimos siete días UTC. No publica, no sube candidatos como artefactos ni se ejecuta automáticamente por PR. Una ejecución correcta demuestra disponibilidad y parsing, no cobertura completa. CI ordinaria sigue siendo offline.
+Ejecuta ambos descubrimientos RSS, descarga KEV y genera la cola conjunta. Los fallos de fuente impiden emitir una cola parcial; los temporales se eliminan. Para reproducir offline, añade `--offline kev.json cisa.xml cloudflare.xml`. El workflow manual **Live source smoke** comprueba la conectividad y la compatibilidad de las fuentes reales para los últimos siete días UTC. No publica ni sube candidatos como artefactos. Se ejecuta en PR únicamente cuando cambian los adaptadores o el workflow de fuentes; es un diagnóstico separado de Radar CI, que sigue offline. La ingesta conjunta completa solo se comprueba en ejecución manual. Una ejecución correcta demuestra disponibilidad y parsing, no cobertura completa. CI ordinaria sigue siendo offline.
 
 ## Compilar una edición revisada
 
@@ -160,6 +160,10 @@ CHROME_BIN=chromium node tests/browser-smoke.cjs
 ```
 
 El smoke levanta un servidor local del paquete real con las cabeceras de despliegue y ejecuta Chrome headless instalado en el runner. Comprueba CSS, filtros combinados, búsqueda, navegación del histórico, reinicio, desbordamiento y errores CSP. No instala paquetes npm, no accede a fuentes externas y no incluye el harness en el sitio desplegable. Es una prueba funcional de navegador, no una auditoría visual exhaustiva.
+
+## Diagnóstico independiente de fuentes
+
+`node scripts/source-health.cjs FROM THROUGH` comprueba KEV y ambos RSS independientemente, incluso si uno falla, y devuelve un JSON con estado y recuento por fuente. Cero candidatos no implica fallo; el código de salida es no cero si algún adaptador falla. No incluye textos externos en el informe. El workflow Live source smoke no debe configurarse como check requerido: la disponibilidad externa no debe bloquear cambios no relacionados.
 
 ## Roadmap
 
