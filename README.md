@@ -175,6 +175,14 @@ node scripts/editorial-assistance.cjs apply borrador.json respuesta.json > borra
 
 El paquete separa instrucciones y evidencias no confiables. No contiene claves, no llama a modelos, no descarga enlaces ni envía datos a terceros. Las propuestas solo rellenan campos vacíos, conservan las fuentes y la fecha original, no elevan alertas a brechas y nunca verifican ni publican. Una revisión marcada como verificada no puede modificarse mediante este flujo. El editor debe comprobar la exactitud del texto y cualquier posible instrucción maliciosa en las fuentes; el filtro estructural no garantiza veracidad. Solo compartir datos autorizados con el proveedor elegido.
 
+## Asistencia con Ollama local
+
+```sh
+node scripts/local-editorial.cjs borrador.json NOMBRE_MODELO > borrador-asistido.json
+```
+
+Requiere Ollama ya ejecutándose en 127.0.0.1:11434 y el modelo elegido instalado localmente. El comando no instala ni descarga modelos. Utiliza exclusivamente la API local fija, sin redirecciones, y envía un candidato por solicitud (máximo 20 por ejecución). Se aplican las mismas restricciones de la asistencia manual. No se envían candidatos ya verificados. Si una respuesta falla, no se emite un borrador parcial. No se ejecuta el modelo en CI: los tests simulan su API. Usa modelos realmente locales, no variantes cloud ni un servidor local configurado para reenviar solicitudes; el cliente no puede garantizar qué hace el servidor. Revisar el resultado antes de publicar.
+
 ## Roadmap
 
 1. Ediciones versionadas y selector de semanas (implementado); ampliar validación compartida.
