@@ -2,6 +2,8 @@ name: Radar CI
 on:
   pull_request:
     paths:
+      - 'Makefile'
+      - '.gitignore'
       - 'index.html'
       - 'radar.css'
       - '_headers'
