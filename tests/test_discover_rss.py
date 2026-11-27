@@ -38,6 +38,12 @@ class DiscoveryTests(unittest.TestCase):
         rows = mod.parse_feed(rss(item(link="https://blog.cloudflare.com/security-post/")), "cloudflare", START, END)
         self.assertEqual(rows[0]["sourceKind"], "vendor")
         self.assertEqual(rows[0]["organization"], "Cloudflare")
+    def test_cert_fr_current_and_legacy_domains(self):
+        rows = mod.parse_feed(rss(item(link="https://cert.cyber.gouv.fr/cti/CERTFR-2026-CTI-010/"), item(link="https://www.cert.ssi.gouv.fr/cti/CERTFR-2026-CTI-009/")), "cert-fr", START, END)
+        self.assertEqual(len(rows), 2)
+        self.assertTrue(all(r["organization"] == "CERT-FR" and r["sourceKind"] == "cert" and r["proposedType"] == "watch" for r in rows))
+        with self.assertRaises(ValueError):
+            mod.parse_feed(rss(item(link="https://cert.cyber.gouv.fr.evil.example/")), "cert-fr", START, END)
     def test_cli_offline(self):
         with tempfile.TemporaryDirectory() as tmp:
             feed = Path(tmp) / "feed.xml"

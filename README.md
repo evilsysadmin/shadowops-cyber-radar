@@ -198,6 +198,15 @@ node scripts/weekly-briefing.cjs 2026-11-27 > briefing-2026-11-27.md
 
 Genera un resumen de la última edición publicada o de una fecha concreta, agrupado por tipo y con enlaces originales, fechas, impacto y lecciones. No consulta Internet ni utiliza candidatos pendientes; tampoco añade datos, cambia el histórico o publica automáticamente. El resultado es portable a notas, correo o documentación.
 
+## Fuente europea CERT-FR
+
+```sh
+python3 scripts/discover-rss.py 2026-11-21 2026-11-27 --feed cert-fr > rss-cert-fr.json
+node scripts/weekly-review.cjs 2026-11-21 2026-11-27 --rss rss-cert-fr.json > revision.json
+```
+
+El [catálogo oficial RSS del CERT-FR](https://cert.cyber.gouv.fr/flux-rss/) publica un flujo específico de amenazas e incidentes (CTI). Se utiliza el dominio actual cert.cyber.gouv.fr, admitiendo enlaces del dominio anterior del organismo. Todas las entradas siguen siendo watch pendientes. El diagnóstico independiente incluye esta cuarta fuente; la ingesta completa existente mantiene sus tres fuentes por defecto hasta validar la integración de la nueva. El flujo explícito --rss permite incorporarla sin alterar el histórico.
+
 ## Roadmap
 
 1. Ediciones versionadas y selector de semanas (implementado); ampliar validación compartida.
