@@ -3,6 +3,7 @@ on:
   pull_request:
     paths:
       - 'index.html'
+      - 'data/**'
       - 'tests/**'
       - '.github/workflows/ci.yml'
   workflow_dispatch:
