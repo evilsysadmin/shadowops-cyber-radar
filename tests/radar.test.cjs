@@ -7,11 +7,11 @@ const vm = require('node:vm');
 const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
 const archive = fs.readFileSync(path.join(__dirname, "..", "data", "editions.js"), "utf8");
 const editions = JSON.parse(archive.match(/^const RADAR_EDITIONS = ([\s\S]*);\s*$/)[1]);
-const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)];
+const scripts = [...html.matchAll(/<script src="([^"]+)"><\/script>/g)].map(m=>m[1]);
 
-test('embedded application JavaScript parses', () => {
-  assert.ok(scripts.length);
-  for (const match of scripts) new vm.Script(match[1]);
+test('external application JavaScript parses in declared order', () => {
+  assert.deepEqual(scripts,['data/editions.js','lib/validation.js','lib/domains.js','lib/trends.js','lib/radar-ui.js']);
+  for (const file of scripts) new vm.Script(fs.readFileSync(path.join(__dirname,'..',file),'utf8'));
 });
 
 test('initial edition has valid fields and HTTPS evidence', () => {
@@ -95,4 +95,11 @@ test('valid empty edition and multiple incidents for a single organization are a
   assert.doesNotThrow(() => validateEdition(edition));
   edition.items = [];
   assert.doesNotThrow(() => validateEdition(edition));
+});
+
+test('public runtime requires no inline script or stylesheet and supplies restrictive hosting headers',()=>{
+ assert.doesNotMatch(html,/<script\s*>|<style\b|\sstyle=|\son\w+=/i);
+ assert.match(html,/<link rel="stylesheet" href="radar.css">/);
+ const headers=fs.readFileSync(path.join(__dirname,'../_headers'),'utf8');
+ assert.match(headers,/script-src 'self'/);assert.match(headers,/style-src 'self'/);assert.match(headers,/connect-src 'none'/);assert.match(headers,/frame-ancestors 'none'/);assert.doesNotMatch(headers,/unsafe-inline|unsafe-eval/);
 });

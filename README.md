@@ -147,6 +147,10 @@ El desplegable de histórico muestra hasta ocho ediciones publicadas, con barras
 
 El mismo desplegable incluye patrones técnicos por etiquetas explícitas: fichas, número de ediciones con presencia y recuento en la última edición. Las categorías se solapan y un seguimiento repetido cuenta como ficha, no como ataque independiente. No se infieren causas raíz ni se fabrican tendencias con una sola edición.
 
+## Cabeceras de seguridad del despliegue
+
+El paquete estático incluye `_headers` para Cloudflare Pages: CSP restrictiva sin unsafe-inline ni unsafe-eval, protección contra framing, nosniff y política de referrer. Los scripts y CSS del radar son externos y se sirven desde el mismo origen. El radar no necesita conexiones de red en runtime. En otros hostings hay que configurar las cabeceras equivalentes (GitHub Pages no aplica automáticamente _headers). No sustituye autenticación ni activa el alojamiento. La mesa editorial local no se empaqueta.
+
 ## Roadmap
 
 1. Ediciones versionadas y selector de semanas (implementado); ampliar validación compartida.
