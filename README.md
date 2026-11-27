@@ -189,6 +189,15 @@ La mesa de revisión combina búsqueda por palabras (sin distinguir mayúsculas 
 
 El smoke también ejercita la mesa editorial local en el navegador: importación JSON, texto no confiable, búsqueda, filtros, decisiones, recuperación en una segunda navegación y borrado de sesión. No se añade la mesa editorial al paquete público.
 
+## Briefing semanal en Markdown
+
+```sh
+node scripts/weekly-briefing.cjs > briefing.md
+node scripts/weekly-briefing.cjs 2026-11-27 > briefing-2026-11-27.md
+```
+
+Genera un resumen de la última edición publicada o de una fecha concreta, agrupado por tipo y con enlaces originales, fechas, impacto y lecciones. No consulta Internet ni utiliza candidatos pendientes; tampoco añade datos, cambia el histórico o publica automáticamente. El resultado es portable a notas, correo o documentación.
+
 ## Roadmap
 
 1. Ediciones versionadas y selector de semanas (implementado); ampliar validación compartida.
