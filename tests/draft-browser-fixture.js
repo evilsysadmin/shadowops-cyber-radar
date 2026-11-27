@@ -12,6 +12,14 @@
  async function until(predicate){for(let i=0;i<50;i++){if(predicate())return;await new Promise(r=>setTimeout(r,20));}throw Error('Timed out waiting for editor');}
  window.addEventListener('DOMContentLoaded',async()=>{
   try{
+   if(location.search==='?restore'){
+    check(!$('editor').hidden,'restored editor');
+    check($('progress').textContent.startsWith('1 de 1'),'restored verification');
+    check($('persistence').textContent.includes('recuperado'),'restore notice');
+    window.confirm=()=>true;$('clear-draft').click();
+    check($('editor').hidden&&RadarDraftSession.restore(localStorage).status==='empty','clear draft');
+    finish();return;
+   }
    check($('editor').hidden,'initial hidden editor');
    upload(draft);await until(()=>$('notice').textContent==='Borrador cargado.');
    check(!$('editor').hidden,'editor visible');check(!$('card').querySelector('img'),'evidence rendered as text');

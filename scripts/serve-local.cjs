@@ -6,7 +6,7 @@ const root=path.join(__dirname,'..');
 const routes=new Map([
  ['/', 'index.html'],['/index.html','index.html'],['/review.html','review.html'],
  ['/draft.html','draft.html'],['/editor.css','editor.css'],['/radar.css','radar.css'],['/data/editions.js','data/editions.js'],
- ...['validation','domains','trends','radar-ui','workbench','review-session','workbench-ui','draft-editor','draft-editor-ui'].map(n=>['/lib/'+n+'.js','lib/'+n+'.js'])
+ ...['validation','domains','trends','radar-ui','workbench','review-session','workbench-ui','draft-editor','draft-session','draft-editor-ui'].map(n=>['/lib/'+n+'.js','lib/'+n+'.js'])
 ]);
 const mime={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'application/javascript; charset=utf-8'};
 function createLocalServer(){
