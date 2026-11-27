@@ -47,6 +47,14 @@ node scripts/ingest-kev.cjs 2026-11-21 2026-11-27 > candidatos.json
 
 La ventana es inclusiva y usa la fecha de incorporación a KEV, no la fecha del ataque. Los candidatos tienen estado pending, tipo exploit, fuente oficial y fecha del incidente desconocida. No se modifica el archivo publicado; revisar antes de redactar una ficha. La descarga tiene timeout y límite de tamaño. CI usa exclusivamente fixtures sintéticas, no red.
 
+## Revisión y deduplicación
+
+```sh
+node scripts/review-kev.cjs candidatos.json > revision.json
+```
+
+El informe conserva todos los CVE pendientes y sus fuentes. Marca `new_cve` cuando no hay referencia, `historical_match` si existe en el histórico y `covered_in_window` cuando aparece en una edición con fecha de corte dentro del intervalo. Las coincidencias son por etiqueta CVE exacta, nunca por nombre de proveedor; no prueban que dos ataques sean el mismo incidente. Los candidatos idénticos se consolidan y los contradictorios se rechazan. Ningún candidato se publica ni se descarta automáticamente.
+
 ## Roadmap
 
 1. Ediciones versionadas y selector de semanas (implementado); ampliar validación compartida.
