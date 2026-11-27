@@ -69,7 +69,7 @@ El selector combina área, tipo y búsqueda. Las áreas se derivan únicamente d
 
 ## Mesa de revisión local
 
-Abre `review.html` en el navegador e importa la salida de `review-kev.cjs` o `review-disclosures.cjs`. Consulta fuentes, fechas, referencias y estado provisional; filtra por decisión y exporta el informe JSON. Una cola a la vez, decisiones en memoria hasta exportar. No se modifica el archivo editorial ni se publica nada. Los enlaces importados son texto no confiable y solo se aceptan HTTPS sin credenciales; la autenticidad sigue requiriendo revisión humana.
+Abre `review.html` en el navegador e importa la salida de `review-kev.cjs` o `review-disclosures.cjs`. Consulta fuentes, fechas, referencias y estado provisional; filtra por decisión y exporta el informe JSON. Una cola a la vez; la cola y sus decisiones se guardan en localStorage cuando está disponible. Al recargar se revalida el snapshot. Si el almacenamiento falla, se informa y se mantiene la sesión en memoria; exporta una copia. El botón de borrado elimina la sesión local. No hay sincronización entre dispositivos ni garantía de persistencia en file://. No se modifica el archivo editorial ni se publica nada. Los enlaces importados son texto no confiable y solo se aceptan HTTPS sin credenciales; la autenticidad sigue requiriendo revisión humana.
 
 ## Cola semanal unificada
 
