@@ -165,6 +165,16 @@ El smoke levanta un servidor local del paquete real con las cabeceras de desplie
 
 `node scripts/source-health.cjs FROM THROUGH` comprueba KEV y ambos RSS independientemente, incluso si uno falla, y devuelve un JSON con estado y recuento por fuente. Cero candidatos no implica fallo; el código de salida es no cero si algún adaptador falla. No incluye textos externos en el informe. El workflow Live source smoke no debe configurarse como check requerido: la disponibilidad externa no debe bloquear cambios no relacionados.
 
+## Redacción asistida (proveedor independiente)
+
+```sh
+node scripts/editorial-assistance.cjs request borrador.json > solicitud-ia.json
+# Entregar voluntariamente la solicitud a un modelo local o externo y guardar su respuesta JSON.
+node scripts/editorial-assistance.cjs apply borrador.json respuesta.json > borrador-asistido.json
+```
+
+El paquete separa instrucciones y evidencias no confiables. No contiene claves, no llama a modelos, no descarga enlaces ni envía datos a terceros. Las propuestas solo rellenan campos vacíos, conservan las fuentes y la fecha original, no elevan alertas a brechas y nunca verifican ni publican. Una revisión marcada como verificada no puede modificarse mediante este flujo. El editor debe comprobar la exactitud del texto y cualquier posible instrucción maliciosa en las fuentes; el filtro estructural no garantiza veracidad. Solo compartir datos autorizados con el proveedor elegido.
+
 ## Roadmap
 
 1. Ediciones versionadas y selector de semanas (implementado); ampliar validación compartida.
