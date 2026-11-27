@@ -17,7 +17,7 @@ Sin dependencias de frontend, backend, claves API ni telemetría. La edición in
 ## Calidad
 
 ```sh
-node --test tests/radar.test.cjs
+node --test tests/*.test.cjs
 ```
 
 Node 20+; sin npm install. CI ligera por PR, sin tareas programadas ni deploy automático todavía.
@@ -37,6 +37,15 @@ La app permite importar y exportar una edición JSON localmente. El objeto conti
 ## Archivo semanal
 
 Las ediciones publicadas residen en `data/editions.js`, como una lista JSON asignada a `RADAR_EDITIONS`. Cada edición incluye `id` (fecha de corte ISO YYYY-MM-DD). Añadir nuevas ediciones al principio, mantener las anteriores y ejecutar los tests. El selector permite consultar el histórico; importar JSON no modifica el archivo publicado. Se conserva el funcionamiento desde file:// sin servidor.
+
+## Ingesta de candidatos CISA KEV
+
+```sh
+node scripts/ingest-kev.cjs 2026-11-21 2026-11-27 > candidatos.json
+# Repetición offline: añadir como tercer argumento un catálogo KEV JSON local.
+```
+
+La ventana es inclusiva y usa la fecha de incorporación a KEV, no la fecha del ataque. Los candidatos tienen estado pending, tipo exploit, fuente oficial y fecha del incidente desconocida. No se modifica el archivo publicado; revisar antes de redactar una ficha. La descarga tiene timeout y límite de tamaño. CI usa exclusivamente fixtures sintéticas, no red.
 
 ## Roadmap
 
