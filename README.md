@@ -228,6 +228,16 @@ node scripts/release-candidate.cjs verify release "$(git rev-parse HEAD)"
 
 El manifiesto permite detectar cambios accidentales; no es una firma ni acredita por sí solo el origen. El futuro propietario de despliegue debe comprobar el run de CI, su repositorio, SHA y evento de origen mediante GitHub, no confiar en el JSON por sí solo. No activar un Pages público directamente desde este repositorio. Conforme a los patrones de ShadowOps Infra, la infraestructura debe ser dueña de Pages y DNS, validar acceso a dominio canónico, origen pages.dev y previews, y verificar ShadowOps ID antes de exponer el contenido. Main todavía no está protegido; la protección de rama y el contrato de identidad/hosting son requisitos pendientes de admisión. Esta PR prepara el paquete, no crea un sitio ni cambia políticas de acceso.
 
+## Recogida local con un comando
+
+```sh
+make collect
+# O seleccionar fechas concretas:
+node scripts/collect-local.cjs 2026-11-21 2026-11-27
+```
+
+Por defecto recoge los siete días UTC inclusivos hasta hoy y guarda la cola validada en `work/revision-FROM--THROUGH.json`. Si alguna fuente falla o la cola es inválida, no crea el fichero final. Nunca sobrescribe una cola existente, incluso si coinciden dos ejecuciones. Importa el archivo en la mesa editorial; sigue siendo una lista de candidatos, no una edición publicada. No se sincroniza ni se envía a IA automáticamente.
+
 ## Roadmap
 
 1. Ediciones versionadas y selector de semanas (implementado); ampliar validación compartida.
