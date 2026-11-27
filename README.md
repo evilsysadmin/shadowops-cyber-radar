@@ -183,6 +183,10 @@ node scripts/local-editorial.cjs borrador.json NOMBRE_MODELO > borrador-asistido
 
 Requiere Ollama ya ejecutándose en 127.0.0.1:11434 y el modelo elegido instalado localmente. El comando no instala ni descarga modelos. Utiliza exclusivamente la API local fija, sin redirecciones, y envía un candidato por solicitud (máximo 20 por ejecución). Se aplican las mismas restricciones de la asistencia manual. No se envían candidatos ya verificados. Si una respuesta falla, no se emite un borrador parcial. No se ejecuta el modelo en CI: los tests simulan su API. Usa modelos realmente locales, no variantes cloud ni un servidor local configurado para reenviar solicitudes; el cliente no puede garantizar qué hace el servidor. Revisar el resultado antes de publicar.
 
+## Búsqueda editorial
+
+La mesa de revisión combina búsqueda por palabras (sin distinguir mayúsculas ni acentos), estado de decisión y coincidencia histórica. Los filtros solo cambian la vista; exportar decisiones y preparar borradores sigue considerando la cola completa, no únicamente los resultados visibles. Los recuentos globales y visibles se muestran por separado.
+
 ## Roadmap
 
 1. Ediciones versionadas y selector de semanas (implementado); ampliar validación compartida.
