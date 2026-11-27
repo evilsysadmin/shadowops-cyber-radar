@@ -25,11 +25,13 @@
    check(!$('editor').hidden,'editor visible');check(!$('card').querySelector('img'),'evidence rendered as text');
    const checkbox=$('card').querySelector('input[type=checkbox]');
    const impact=[...$('card').querySelectorAll('label')].find(l=>l.firstChild.textContent==='Impacto').querySelector('textarea');
+   $('preview-button').click();check($('preview').hidden,'incomplete preview rejected');
    checkbox.click();check(!checkbox.checked,'incomplete review rejected');
    impact.value='En investigación';impact.dispatchEvent(new Event('input'));
    checkbox.click();check(checkbox.checked&&$('progress').textContent.startsWith('1 de 1'),'explicit verification');
+   $('preview-button').click();check(!$('preview').hidden&&$('preview-content').textContent.includes('En investigación'),'valid edition preview');
    impact.value='Actualización';impact.dispatchEvent(new Event('input'));
-   check(!checkbox.checked&&$('progress').textContent.startsWith('0 de 1'),'editing invalidates verification');
+   check(!checkbox.checked&&$('progress').textContent.startsWith('0 de 1'),'editing invalidates verification');check($('preview').hidden,'stale preview hidden');
    checkbox.click();check(checkbox.checked,'reverification');
    let exported=null;
    const create=URL.createObjectURL.bind(URL),click=HTMLAnchorElement.prototype.click;
