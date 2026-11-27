@@ -211,6 +211,8 @@ El [catálogo oficial RSS del CERT-FR](https://cert.cyber.gouv.fr/flux-rss/) pub
 
 El workflow **Weekly candidate collection** se ejecuta los viernes a las 11:30 UTC, manualmente o en PRs que cambien la orquestación. Recoge los últimos siete días UTC de KEV y tres RSS, valida la cola y sube `radar-unpublished-review-queue` como artefacto de Actions con siete días de retención. Descarga el ZIP, extrae `radar-review.json` e impórtalo en `review.html`. No modifica main, no publica ediciones ni invoca IA. Los candidatos contienen datos de fuentes públicas; no introducir datos privados en el registro del repositorio público. Si falla una fuente, no se sube un resultado parcial. La programación consume una ejecución semanal y no debe ser un check obligatorio. Para reproducción offline completa añade `--offline kev.json cisa.xml cloudflare.xml cert-fr.xml`; la variante histórica de tres ficheros sigue funcionando y avisa de que omite CERT-FR.
 
+Los tres pasos del smoke anuncian su etapa y tienen un límite individual de 45 segundos. En Linux, un timeout termina el grupo de procesos de Chrome; no se reintentan ni se ignoran aserciones fallidas. Las opciones de arranque reducen actividad de fondo del navegador. El timeout de la PR #28 fue transitorio; este cambio mejora diagnóstico y margen, no demuestra que todos los timeouts futuros estén resueltos.
+
 ## Roadmap
 
 1. Ediciones versionadas y selector de semanas (implementado); ampliar validación compartida.

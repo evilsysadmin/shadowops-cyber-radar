@@ -9,15 +9,17 @@ const tmp=fs.mkdtempSync(path.join(os.tmpdir(),'radar-browser-'));
 const dist=path.join(tmp,'dist');
 const chrome=process.env.CHROME_BIN||'google-chrome';
 let server;
-function browser(url){
+function browser(url,label){
+ console.log('Browser smoke starting: '+label);
  return new Promise((resolve,reject)=>{
-   const child=spawn(chrome,['--headless','--no-sandbox','--disable-dev-shm-usage','--disable-background-networking','--no-first-run','--no-default-browser-check','--user-data-dir='+path.join(tmp,'profile'),'--window-size=390,900','--virtual-time-budget=3000','--dump-dom',url],{stdio:['ignore','pipe','pipe']});
+   const child=spawn(chrome,['--headless','--no-sandbox','--disable-dev-shm-usage','--disable-background-networking','--disable-component-update','--disable-default-apps','--disable-sync','--no-first-run','--no-default-browser-check','--user-data-dir='+path.join(tmp,'profile'),'--window-size=390,900','--virtual-time-budget=3000','--dump-dom',url],{stdio:['ignore','pipe','pipe'],detached:process.platform!=='win32'});
+   function stop(){try{if(process.platform!=='win32'&&child.pid)process.kill(-child.pid,'SIGKILL');else child.kill('SIGKILL');}catch(e){if(e.code!=='ESRCH')console.error('Chrome cleanup: '+e.message);}}
    let stdout='',stderr='';
-   const timer=setTimeout(()=>{child.kill('SIGKILL');reject(Error('Browser smoke timed out'));},30000);
-   child.stdout.on('data',d=>{stdout+=d;if(stdout.length>4*1024*1024)child.kill('SIGKILL');});
+   const timer=setTimeout(()=>{stop();reject(Error('Browser smoke timed out: '+label+'; '+stderr));},45000);
+   child.stdout.on('data',d=>{stdout+=d;if(stdout.length>4*1024*1024){stop();reject(Error('Browser smoke output exceeded limit: '+label));}});
    child.stderr.on('data',d=>{stderr=(stderr+d).slice(-4000);});
    child.on('error',e=>{clearTimeout(timer);reject(e);});
-   child.on('close',code=>{clearTimeout(timer);if(code!==0||!/<html[^>]*data-smoke="passed"/.test(stdout)){const detail=stdout.match(/data-smoke-detail="([^"]*)"/)?.[1];reject(Error('Browser smoke failed: '+(detail||stderr||'missing success marker')));}else resolve();});
+   child.on('close',code=>{clearTimeout(timer);if(code!==0||!/<html[^>]*data-smoke="passed"/.test(stdout)){const detail=stdout.match(/data-smoke-detail="([^"]*)"/)?.[1];reject(Error('Browser smoke failed: '+label+'; '+(detail||stderr||'missing success marker')));}else resolve();});
  });
 }
 async function main(){
@@ -43,10 +45,10 @@ async function main(){
    res.end(url==='/'?modified:fs.readFileSync(path.join(dist,file)));
  });
  await new Promise((resolve,reject)=>{server.once('error',reject);server.listen(0,'127.0.0.1',resolve);});
- await browser('http://127.0.0.1:'+server.address().port+'/');
+ await browser('http://127.0.0.1:'+server.address().port+'/','public dashboard');
  console.log('Browser smoke passed with deployment CSP');
- await browser('http://127.0.0.1:'+server.address().port+'/review.html');
- await browser('http://127.0.0.1:'+server.address().port+'/review.html?restore');
+ await browser('http://127.0.0.1:'+server.address().port+'/review.html','editorial import and decisions');
+ await browser('http://127.0.0.1:'+server.address().port+'/review.html?restore','editorial session recovery');
  console.log('Editorial browser smoke passed, including reload recovery');
 }
 main().catch(e=>{console.error(e.message);process.exitCode=1;}).finally(()=>{if(server)server.close();fs.rmSync(tmp,{recursive:true,force:true});});
