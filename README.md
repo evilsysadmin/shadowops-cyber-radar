@@ -85,6 +85,17 @@ Importa el resultado en `review.html`. Ambas fuentes conservan identidad, fechas
 
 En la mesa de revisión, marca los candidatos que merecen investigación y pulsa **Preparar borrador**. El JSON exportado conserva las evidencias y crea campos de redacción vacíos para cada candidato seleccionado. Las decisiones pendientes, descartadas o ya cubiertas solo se contabilizan; no se incluyen como fichas. El borrador tiene un esquema distinto del radar y no puede importarse como edición publicada. No presupone confirmación, impacto ni causa raíz, y no ejecuta ninguna IA. El editor debe verificar fuentes y completar los campos antes de preparar una edición.
 
+## Descubrimiento RSS de fuentes oficiales
+
+```sh
+python3 scripts/discover-rss.py 2026-11-21 2026-11-27 --feed cisa > rss-cisa.json
+python3 scripts/discover-rss.py 2026-11-21 2026-11-27 --feed cloudflare > rss-cloudflare.json
+# Offline: añadir --local feed.xml
+node scripts/review-disclosures.cjs 2026-11-21 2026-11-27 rss-cisa.json > revision-rss.json
+```
+
+CISA y el blog de seguridad de Cloudflare son fuentes fijas. Solo se extraen título, URL y fecha de publicación UTC; toda entrada se clasifica provisionalmente como watch, incluso si su título parece describir un ataque. No se descargan páginas de terceros ni se procesan instrucciones contenidas en el feed. El editor debe leer y verificar el comunicado; estos feeds no garantizan cobertura histórica ni exhaustiva. Python 3 (biblioteca estándar) para RSS; CI offline con fixtures. Si la descarga falla no se emite JSON parcial.
+
 ## Roadmap
 
 1. Ediciones versionadas y selector de semanas (implementado); ampliar validación compartida.
