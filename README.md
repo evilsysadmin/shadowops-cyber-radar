@@ -96,6 +96,15 @@ node scripts/review-disclosures.cjs 2026-11-21 2026-11-27 rss-cisa.json > revisi
 
 CISA y el blog de seguridad de Cloudflare son fuentes fijas. Solo se extraen título, URL y fecha de publicación UTC; toda entrada se clasifica provisionalmente como watch, incluso si su título parece describir un ataque. No se descargan páginas de terceros ni se procesan instrucciones contenidas en el feed. El editor debe leer y verificar el comunicado; estos feeds no garantizan cobertura histórica ni exhaustiva. Python 3 (biblioteca estándar) para RSS; CI offline con fixtures. Si la descarga falla no se emite JSON parcial.
 
+## Empaquetado y despliegue estático
+
+```sh
+node scripts/build-static.cjs dist
+python3 -m http.server 8080 --directory dist
+```
+
+La salida es un sitio estático sin backend ni instalación de dependencias. El directorio de destino no debe existir; no se sobrescribe ni se borra un directorio previo. Solo se incluyen los cuatro archivos de runtime del radar y .nojekyll. No se empaquetan la mesa editorial, scripts, fuentes de candidatos ni tests. Publicar únicamente dist en el alojamiento estático elegido, no la raíz del repositorio. La mesa editorial sigue siendo una herramienta local. Esto no activa ningún hosting ni configura autenticación. El repositorio y sus archivos actuales son públicos; no almacenar información privada en él.
+
 ## Roadmap
 
 1. Ediciones versionadas y selector de semanas (implementado); ampliar validación compartida.
