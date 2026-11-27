@@ -67,6 +67,10 @@ El registro JSON contiene comunicados seleccionados manualmente, con fecha de pu
 
 El selector combina área, tipo y búsqueda. Las áreas se derivan únicamente de etiquetas explícitas normalizadas; no del texto de recomendaciones. Cloud/Kubernetes es una agrupación temática, no una afirmación de que todos los incidentes afecten Kubernetes. Los recuentos son de la edición completa y pueden solaparse. No representan frecuencia mundial ni atribución MITRE.
 
+## Mesa de revisión local
+
+Abre `review.html` en el navegador e importa la salida de `review-kev.cjs` o `review-disclosures.cjs`. Consulta fuentes, fechas, referencias y estado provisional; filtra por decisión y exporta el informe JSON. Una cola a la vez, decisiones en memoria hasta exportar. No se modifica el archivo editorial ni se publica nada. Los enlaces importados son texto no confiable y solo se aceptan HTTPS sin credenciales; la autenticidad sigue requiriendo revisión humana.
+
 ## Roadmap
 
 1. Ediciones versionadas y selector de semanas (implementado); ampliar validación compartida.
