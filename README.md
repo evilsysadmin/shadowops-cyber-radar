@@ -254,6 +254,10 @@ El histórico agrupa CVE explícitos y URLs de fuente normalizadas que aparecen 
 
 La búsqueda del radar combina palabras independientemente de acentos, mayúsculas y orden, incluyendo etiquetas y fuentes. El histórico no se reconstruye al cambiar filtros; los patrones y coincidencias se calculan una sola vez por carga del archivo. Las coincidencias de URL usan el mismo contrato de normalización que la revisión editorial.
 
+## Enlaces a fichas publicadas
+
+Cada ficha del archivo tiene un enlace directo con fragmento de URL que selecciona su edición, limpia filtros y abre las fuentes. Se puede copiar mediante el menú del navegador. No requiere servidor especial ni expone ediciones importadas localmente. Una huella corta de contenido evita resolver silenciosamente una ficha distinta después de una corrección o reordenación; no es una firma de seguridad. Si el contenido cambió, el enlace antiguo puede dejar de funcionar y muestra un aviso. Cambiar filtros o seleccionar otra edición elimina la referencia de la URL.
+
 ## Roadmap
 
 1. Ediciones versionadas y selector de semanas (implementado); ampliar validación compartida.
