@@ -5,3 +5,5 @@
 .evidence-match{overflow-wrap:anywhere}.evidence-match button{display:block;margin:6px 0;max-width:100%;text-align:left;overflow-wrap:anywhere}
 
 .case-link{font-size:12px;overflow-wrap:anywhere}.evidence-match .case-link{display:block;margin:6px 0}.card:focus{outline:2px solid var(--cyan);outline-offset:3px}
+
+.archive-search{margin:0 0 14px;padding:12px;border:1px solid var(--line);border-radius:9px;background:var(--panel)}.archive-search label{display:block;margin:8px 0 4px;font-size:12px;color:var(--muted)}.archive-search input{width:100%;min-width:0}.archive-result{padding:8px 0;border-top:1px solid var(--line);overflow-wrap:anywhere}.archive-result .case-link{font-size:15px}.archive-result p{margin:3px 0}@media print{.archive-search{display:none}}

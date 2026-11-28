@@ -32,6 +32,16 @@
      check(document.querySelectorAll('#history-series .history-row').length===Math.min(8,RADAR_EDITIONS.length),'history rows');
      check(document.querySelector('#history-series .history-segment').style.width!=='','dynamic chart width');
      check(byId('evidence-matches').textContent.trim().length>0,'historical evidence state');
+     document.querySelector('.archive-search').open=true;
+     const archiveQuery=byId('archive-query');
+     archiveQuery.value=latest.items[0].name;archiveQuery.dispatchEvent(new Event('input'));
+     const archiveExpected=RadarTrends.searchArchive(RADAR_EDITIONS,archiveQuery.value);
+     check(archiveExpected.total>0&&byId('archive-results').querySelectorAll('a').length===archiveExpected.results.length,'archive search results');
+     check(byId('archive-results').querySelector('a').hash===archiveExpected.results[0].hash,'archive links use published reference');
+     check(cards().length===latest.items.length,'archive search preserves weekly view');
+     archiveQuery.value='__no_case_expected__';archiveQuery.dispatchEvent(new Event('input'));
+     check(byId('archive-results').children.length===0&&byId('archive-count').textContent.includes('No hay coincidencias'),'archive empty state');
+     archiveQuery.value='';archiveQuery.dispatchEvent(new Event('input'));
      const historyButton=document.querySelector('#history-series button');
      historyButton.click();check(byId('week').value!== 'local','history navigation');
      byId('reset').click();check(byId('week').value===latest.id,'reset latest');
