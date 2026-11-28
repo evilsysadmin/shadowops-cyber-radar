@@ -248,6 +248,10 @@ El smoke de Chrome cubre también el editor visual: importación, representació
 
 La mesa de revisión conserva la acción requerida por CISA, su fecha límite aplicable a organismos federales estadounidenses y la indicación de uso en ransomware de KEV. Estos metadatos pasan también al borrador y al paquete de asistencia IA; no se confunde `Unknown` con ausencia de ransomware ni la fecha límite con una obligación universal. En comunicados se conserva el tipo de fuente (afectado, fabricante o CERT). Las colas antiguas sin metadatos KEV siguen siendo importables; no se rellenan datos inexistentes. La evidencia importada continúa siendo no confiable hasta su revisión.
 
+## Evidencias recurrentes
+
+El histórico agrupa CVE explícitos y URLs de fuente normalizadas que aparecen en dos o más ediciones publicadas (hasta ocho). No usa coincidencias de nombre de proveedor, portadas ni el catálogo KEV genérico; no identifica ataques únicos ni atribuye causas. Cada referencia permite abrir la ficha original, limpiando filtros. Las ediciones importadas localmente no se incorporan al histórico.
+
 ## Roadmap
 
 1. Ediciones versionadas y selector de semanas (implementado); ampliar validación compartida.

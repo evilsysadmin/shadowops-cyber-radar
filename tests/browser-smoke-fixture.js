@@ -24,6 +24,7 @@
      document.querySelector('.history').open=true;
      check(document.querySelectorAll('#history-series .history-row').length===Math.min(8,RADAR_EDITIONS.length),'history rows');
      check(document.querySelector('#history-series .history-segment').style.width!=='','dynamic chart width');
+     check(byId('evidence-matches').textContent.trim().length>0,'historical evidence state');
      const historyButton=document.querySelector('#history-series button');
      historyButton.click();check(byId('week').value!== 'local','history navigation');
      byId('reset').click();check(byId('week').value===latest.id,'reset latest');
