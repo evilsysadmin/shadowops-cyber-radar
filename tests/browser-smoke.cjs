@@ -50,7 +50,11 @@ async function main(){
    res.end(url==='/'?modified:fs.readFileSync(path.join(dist,file)));
  });
  await new Promise((resolve,reject)=>{server.once('error',reject);server.listen(0,'127.0.0.1',resolve);});
- await browser('http://127.0.0.1:'+server.address().port+'/','public dashboard');
+ const {parseArchive}=require('../lib/review.cjs');
+ const {caseHash}=require('../lib/trends.js');
+ const latest=parseArchive(fs.readFileSync(path.join(dist,'data/editions.js'),'utf8')).slice().sort((a,b)=>b.id.localeCompare(a.id))[0];
+ const direct=caseHash(latest,Math.min(1,latest.items.length-1));
+ await browser('http://127.0.0.1:'+server.address().port+'/'+direct,'public dashboard direct case link');
  console.log('Browser smoke passed with deployment CSP');
  await browser('http://127.0.0.1:'+server.address().port+'/review.html','editorial import and decisions');
  await browser('http://127.0.0.1:'+server.address().port+'/review.html?restore','editorial session recovery');

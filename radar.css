@@ -3,3 +3,5 @@
 .edition-tools{margin-top:18px}.patterns-heading{margin-top:22px}
 
 .evidence-match{overflow-wrap:anywhere}.evidence-match button{display:block;margin:6px 0;max-width:100%;text-align:left;overflow-wrap:anywhere}
+
+.case-link{font-size:12px;overflow-wrap:anywhere}.evidence-match .case-link{display:block;margin:6px 0}.card:focus{outline:2px solid var(--cyan);outline-offset:3px}

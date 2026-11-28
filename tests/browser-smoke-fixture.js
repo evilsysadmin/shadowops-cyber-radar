@@ -10,10 +10,15 @@
    try{
      const latest=RADAR_EDITIONS.slice().sort((a,b)=>b.id.localeCompare(a.id))[0];
      check(cards().length===latest.items.length,'initial cards');
+     const direct=RadarTrends.resolveCaseHash(RADAR_EDITIONS,location.hash);
+     check(direct&&direct.edition.id===latest.id,'initial direct link');
+     check(document.activeElement===cards()[direct.index]&&cards()[direct.index].querySelector('details').open,'direct link focuses and opens case');
+     check(cards()[direct.index].querySelector('.case-link').hash===location.hash,'shareable case anchor');
      check(byId('period').textContent===latest.period,'period');
      check(getComputedStyle(document.querySelector('main')).maxWidth==='1120px','stylesheet loaded');
      document.querySelector('[data-filter="breach"]').click();
      check(cards().length===latest.items.filter(i=>i.type==='breach').length,'breach filter');
+     check(!location.hash,'manual filtering clears case link');
      document.querySelector('[data-filter="all"]').click();
      const initialHistory=byId('history-series').firstElementChild;
      byId('search').value='__no_case_expected__';byId('search').dispatchEvent(new Event('input'));
