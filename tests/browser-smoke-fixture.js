@@ -15,8 +15,10 @@
      document.querySelector('[data-filter="breach"]').click();
      check(cards().length===latest.items.filter(i=>i.type==='breach').length,'breach filter');
      document.querySelector('[data-filter="all"]').click();
+     const initialHistory=byId('history-series').firstElementChild;
      byId('search').value='__no_case_expected__';byId('search').dispatchEvent(new Event('input'));
      check(cards().length===0,'search empty state');
+     check(byId('history-series').firstElementChild===initialHistory,'search preserves history DOM');
      byId('search').value='';byId('search').dispatchEvent(new Event('input'));
      byId('domain').value='delivery';byId('domain').dispatchEvent(new Event('change'));
      check(cards().length===latest.items.filter(i=>RadarDomains.matchesDomain(i,'delivery')).length,'domain filter');

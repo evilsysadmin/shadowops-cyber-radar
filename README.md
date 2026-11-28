@@ -252,6 +252,8 @@ La mesa de revisión conserva la acción requerida por CISA, su fecha límite ap
 
 El histórico agrupa CVE explícitos y URLs de fuente normalizadas que aparecen en dos o más ediciones publicadas (hasta ocho). No usa coincidencias de nombre de proveedor, portadas ni el catálogo KEV genérico; no identifica ataques únicos ni atribuye causas. Cada referencia permite abrir la ficha original, limpiando filtros. Las ediciones importadas localmente no se incorporan al histórico.
 
+La búsqueda del radar combina palabras independientemente de acentos, mayúsculas y orden, incluyendo etiquetas y fuentes. El histórico no se reconstruye al cambiar filtros; los patrones y coincidencias se calculan una sola vez por carga del archivo. Las coincidencias de URL usan el mismo contrato de normalización que la revisión editorial.
+
 ## Roadmap
 
 1. Ediciones versionadas y selector de semanas (implementado); ampliar validación compartida.

@@ -10,7 +10,7 @@ const editions = JSON.parse(archive.match(/^const RADAR_EDITIONS = ([\s\S]*);\s*
 const scripts = [...html.matchAll(/<script src="([^"]+)"><\/script>/g)].map(m=>m[1]);
 
 test('external application JavaScript parses in declared order', () => {
-  assert.deepEqual(scripts,['data/editions.js','lib/validation.js','lib/domains.js','lib/trends.js','lib/radar-ui.js']);
+  assert.deepEqual(scripts,['data/editions.js','lib/validation.js','lib/domains.js','lib/editorial-contract.js','lib/trends.js','lib/radar-ui.js']);
   for (const file of scripts) new vm.Script(fs.readFileSync(path.join(__dirname,'..',file),'utf8'));
 });
 
