@@ -258,6 +258,10 @@ La búsqueda del radar combina palabras independientemente de acentos, mayúscul
 
 Cada ficha del archivo tiene un enlace directo con fragmento de URL que selecciona su edición, limpia filtros y abre las fuentes. Se puede copiar mediante el menú del navegador. No requiere servidor especial ni expone ediciones importadas localmente. Una huella corta de contenido evita resolver silenciosamente una ficha distinta después de una corrección o reordenación; no es una firma de seguridad. Si el contenido cambió, el enlace antiguo puede dejar de funcionar y muestra un aviso. Cambiar filtros o seleccionar otra edición elimina la referencia de la URL.
 
+## Búsqueda global del histórico
+
+El desplegable junto a los filtros busca en todas las ediciones publicadas, no solo las ocho del gráfico. Muestra hasta 50 fichas de las más recientes y el total de coincidencias, con enlaces directos a cada ficha. No modifica los filtros de la edición abierta ni incluye importaciones privadas. Las fichas repetidas se conservan como referencias editoriales, no como ataques únicos.
+
 ## Roadmap
 
 1. Ediciones versionadas y selector de semanas (implementado); ampliar validación compartida.
